@@ -1,54 +1,44 @@
-#!/usr/bin/node
-
 // a. Rectangle Area using bind
-function calculateArea(width, height) {
-    return width * height;
+function getAreaWithFixedWidth(height) {
+    function calculateArea(width, height) {
+        return width * height;
+    }
+    const areaWithWidth10 = calculateArea.bind(null, 10);
+    return areaWithWidth10(height);
 }
 
-// Bind width to 10
-const areaWithFixedWidth = calculateArea.bind(null, 10);
-
-console.log(areaWithFixedWidth(5));
-
-
-// b. Find Max using apply
-const numbers = [34, 12, 57, 28, 91];
-const max = Math.max.apply(null, numbers);
-
-console.log(max);
-
-
-// c. Capitalize using call
-function capitalize() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
+// b. Max using apply
+function getMaxFromArray(numbers) {
+    return Math.max.apply(null, numbers);
 }
 
-const name = capitalize.call("john");
-
-console.log(name);
-
-
-// d. Discount Price using bind
-function applyDiscount(discount, price) {
-    return price - (price * discount / 100);
+// c. Capitalize with call
+function capitalizeWithCall(str) {
+    function capitalize() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    }
+    return capitalize.call(str);
 }
 
-// Bind discount to 10%
-const tenPercentDiscount = applyDiscount.bind(null, 10);
-
-console.log(tenPercentDiscount(50));
-console.log(tenPercentDiscount(100));
-
-
-// e. Convert Array-like Object using apply
-function toArray() {
-    return Array.prototype.slice.apply(arguments);
+// d. Discount using bind
+function getDiscountedPrice(price) {
+    function applyDiscount(discount, price) {
+        return price - (price * discount / 100);
+    }
+    const tenPercentDiscount = applyDiscount.bind(null, 10);
+    return tenPercentDiscount(price);
 }
 
-// Simulate array-like object
-const arrayLikeObject = { 0: 'a', 1: 'b', 2: 'c', length: 3 };
+// e. Convert array-like object to array using apply
+function convertArrayLikeToArray(arrayLikeObj) {
+    return Array.prototype.slice.apply(arrayLikeObj);
+}
 
-// Convert using call with slice
-const realArray = Array.prototype.slice.apply(arrayLikeObject);
-
-console.log(realArray); // ['a', 'b', 'c']
+// Export all functions
+module.exports = {
+    getAreaWithFixedWidth,
+    getMaxFromArray,
+    capitalizeWithCall,
+    getDiscountedPrice,
+    convertArrayLikeToArray
+};
